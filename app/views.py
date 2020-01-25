@@ -5,7 +5,7 @@ page = Blueprint('page', __name__)
 
 @page.route('/')
 def index():
-	return render_template('index.html')
+	return render_template('index.html', title='Index')
 
 @page.app_errorhandler(404)
 def page_not_found(error):
