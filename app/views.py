@@ -17,7 +17,7 @@ def page_not_found(error):
 def login():
 	form = LoginForm(request.form)
 
-	if request.method == 'POST':
+	if request.method == 'POST' and form.validate():
 		print(form.username.data)
 		print(form.password.data)
 		print("Nueva sesión creada.")
