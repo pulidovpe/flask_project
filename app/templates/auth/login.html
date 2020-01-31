@@ -4,7 +4,7 @@
 {% block container %}
 	<div class="col-md-12 col-md-offset-1">
 		<h3>Login</h3>
-		<form class="" action="index.html" method="post">
+		<form class="" method="post">
 			<div class="form-group">
 				{{ render_field(form.username, class='form-control', placeholder='username') }}
 			</div>
@@ -12,7 +12,7 @@
 				{{ render_field(form.password, class='form-control', placeholder='password') }}
 			</div>
 
-			<button type="button" class="btn btn-primary" name="button">
+			<button type="submit" class="btn btn-primary" name="button">
 				Login
 			</button>
 		</form>
