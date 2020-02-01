@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import render_template, request
 
+from .models import User
 from .forms import LoginForm, RegisterForm
 
 page = Blueprint('page', __name__)
@@ -24,7 +25,14 @@ def login():
 
 	return render_template('auth/login.html', title='Login', form=form)
 
-@page.route('/register')
+@page.route('/register', methods=['GET', 'POST'])
 def register():
-	form = RegisterForm()
+	form = RegisterForm(request.form)
+
+	if request.method == 'POST':
+		if form.validate():
+			user = User.create_element(form.username.data, form.password.data, form.email.data)
+			print("Usuario creado de forma exitosa")
+			print(user.id)
+
 	return render_template('auth/register.html', title='Registro', form=form)
