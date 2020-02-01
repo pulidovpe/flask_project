@@ -32,6 +32,18 @@
 {% block content %}
 <div class="container">
 	<div class="row">
+
+		<div class="col-md-12 col-md-offset-1">
+			{% with messages = get_flashed_messages() %}
+				{% for message in messages %}
+					<div class="alert alert-success">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endwith %}
+		</div>
+
+
 		{% block container %}
 		{% endblock %}
 	</div>
