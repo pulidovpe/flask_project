@@ -2,6 +2,10 @@ from wtforms import Form
 from wtforms import StringField, PasswordField, validators, BooleanField
 from wtforms.fields.html5 import EmailField
 
+def sysadmin_restriction(form, field):
+	if field.data == 'sysadmin' or field.data == 'SYSADMIN' or field.data == 'Sysadmin':
+		raise validators.ValidationError('Ese username no esta permitido!')
+
 class LoginForm(Form):
 	username = StringField('Username', [validators.Length(min=4, max=25, message='Username fuera de rango')])
 	password = PasswordField('Password', [
@@ -10,7 +14,7 @@ class LoginForm(Form):
 class RegisterForm(Form):
 	username = StringField('Username', [
 		validators.length(min=4, max=50),
-		validators.Required(message='El password es requerido')
+		sysadmin_restriction
 	])
 	email = EmailField('E-mail', [
 		validators.length(min=6, max=100),
