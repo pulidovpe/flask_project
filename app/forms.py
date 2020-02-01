@@ -2,6 +2,8 @@ from wtforms import Form
 from wtforms import StringField, PasswordField, validators, BooleanField
 from wtforms.fields.html5 import EmailField
 
+from .models import User
+
 def sysadmin_restriction(form, field):
 	if field.data == 'sysadmin' or field.data == 'SYSADMIN' or field.data == 'Sysadmin':
 		raise validators.ValidationError('Ese username no esta permitido!')
@@ -29,3 +31,11 @@ class RegisterForm(Form):
 	accept = BooleanField('', [
 		validators.DataRequired()
 	])
+
+	def validate_username(self, username): 	## validate_NOMBREDELCAMPO
+		if User.get_by_username(username.data):
+			raise validators.ValidationError('El username ya se encuentra en uso!')
+
+	def validate_email(self, email): 	## validate_NOMBREDELCAMPO
+		if User.get_by_email(email.data):
+			raise validators.ValidationError('El email ya se encuentra en uso!')
