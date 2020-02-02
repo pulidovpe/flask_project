@@ -39,3 +39,13 @@ class RegisterForm(Form):
 	def validate_email(self, email): 	## validate_NOMBREDELCAMPO
 		if User.get_by_email(email.data):
 			raise validators.ValidationError('El email ya se encuentra en uso!')
+
+	def validate(self):
+		if not Form.validate(self):  	## Recomendable primero las demas validaciones
+			return False
+
+		if len(self.password.data) < 3:
+			self.password.errors.append('El password es demasiado corto!')
+			return False
+
+		return True  	## Obligatorio retornar un booleano
