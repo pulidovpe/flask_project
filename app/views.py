@@ -19,9 +19,11 @@ def login():
 	form = LoginForm(request.form)
 
 	if request.method == 'POST' and form.validate():
-		print(form.username.data)
-		print(form.password.data)
-		print("Nueva sesión creada.")
+		user = User.get_by_username(form.username.data)
+		##print(form.username.data)
+		##print(form.password.data)
+		if user and user.verify_password(form.password.data):
+			flash("Usuario autenticado exitosamente.")
 
 	return render_template('auth/login.html', title='Login', form=form)
 
