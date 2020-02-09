@@ -3,8 +3,9 @@ from flask import render_template, request, flash, redirect, url_for
 
 from flask_login import login_user, logout_user, login_required, current_user
 
-from .models import User
-from .forms import LoginForm, RegisterForm
+from .models import User, Task
+from .forms import LoginForm, RegisterForm, TaskForm
+from .consts import *
 
 from . import login_manager
 
@@ -31,24 +32,22 @@ def login():
 
 	if request.method == 'POST' and form.validate():
 		user = User.get_by_username(form.username.data)
-		##print(form.username.data)
-		##print(form.password.data)
 		if user:
 			if user.verify_password(form.password.data):
 				login_user(user)
-				flash("Usuario autenticado exitosamente.")
+				flash(LOGIN)
 				return redirect(url_for('.tasks'))
 			else:
-				flash("Password incorrecto.", 'error')
+				flash(ERROR_PASSWORD, 'error')
 		else:
-			flash("Usuario no existe.", 'error')
+			flash(ERROR_USER, 'error')
 
 	return render_template('auth/login.html', title='Login', form=form)
 
 @page.route('/logout')
 def logout():
 	logout_user()
-	flash("Sesión cerrada exitosamente!")
+	flash(LOGOUT)
 	return redirect(url_for('.login'))
 
 
@@ -63,7 +62,7 @@ def register():
 		if form.validate():
 			user = User.create_element(form.username.data, form.password.data, form.email.data)
 			login_user(user)
-			flash("Usuario registrado exitosamente!")
+			flash(USER_CREATED)
 			return redirect(url_for('.tasks'))
 
 	return render_template('auth/register.html', title='Registro', form=form)
@@ -72,3 +71,16 @@ def register():
 @login_required
 def tasks():
 	return render_template('task/list.html', title='Tareas')
+
+@page.route('/tasks/new', methods=['GET', 'POST'])
+@login_required
+def new_task():
+	form = TaskForm(request.form)
+
+	if request.method == 'POST' and form.validate():
+		task = Task.create_element(form.title.data,form.description.data,current_user.id)
+		if task:
+			flash(TASK_CREATED)
+			return redirect(url_for('.tasks'))
+			
+	return render_template('task/new.html', title='Nueva Tarea', form=form)

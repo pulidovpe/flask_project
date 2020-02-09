@@ -61,4 +61,11 @@ class Task(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	created_at = db.Column(db.DateTime, default=datetime.datetime.now())
 
-	
+	@classmethod
+	def create_element(cls, title, description, user_id):
+		task = Task(title=title, description=description, user_id=user_id)
+
+		db.session.add(task)
+		db.session.commit()
+
+		return task

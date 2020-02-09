@@ -1,5 +1,5 @@
 from wtforms import Form
-from wtforms import StringField, PasswordField, validators, BooleanField
+from wtforms import StringField, PasswordField, validators, BooleanField, TextAreaField
 from wtforms.fields.html5 import EmailField
 
 from .models import User
@@ -49,3 +49,13 @@ class RegisterForm(Form):
 			return False
 
 		return True  	## Obligatorio retornar un booleano
+
+class TaskForm(Form):
+	title = StringField('Título', [
+		validators.Length(min=4, max=50, message='Título fuera de rango'),
+		validators.DataRequired(message='El título es requerido')
+	])
+	description = TextAreaField('Descripción', [
+		validators.DataRequired(message='La Descripción es requerida')
+	], render_kw={'rows': 5})
+
