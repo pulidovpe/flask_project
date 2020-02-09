@@ -20,7 +20,7 @@
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 						{% if current_user.is_authenticated %}
-							<a class="dropdown-item" href="{{ url_for('.tasks') }}">Tareas</a>
+							<a class="dropdown-item" href="{{ url_for('.tasks') }}">Listar tareas</a>
 							<a class="dropdown-item" href="{{ url_for('.new_task') }}">Nueva tarea</a>
 						{% endif %}
 						</div>
