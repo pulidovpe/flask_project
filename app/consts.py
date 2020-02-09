@@ -8,3 +8,4 @@ ERROR_USER = 'Nombre de usuario incorrecto'
 ERROR_PASSWORD = 'Contraseña incorrecta'
 
 TASK_CREATED = 'Tarea creada exitosamente'
+TASK_UPDATED = 'Tarea actualizada exitosamente'
