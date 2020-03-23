@@ -3,7 +3,9 @@ class Config:
 
 class DevelopmentConfig(Config):
 	DEBUG = True 	## Reiniciar servidor
-	SQLALCHEMY_DATABASE_URI = 'mysql://developer:123456@localhost/bd_project_web_facilito'
+	
+	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@127.0.0.1:3306/db_flask_project'
+
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 config = {
