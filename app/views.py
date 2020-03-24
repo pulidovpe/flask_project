@@ -77,6 +77,7 @@ def tasks(page=1, per_page=3):
 	return render_template('task/list.html', title='Tareas', tasks=tasks,
 							pagination=pagination, page=page)
 
+
 @page.route('/tasks/new', methods=['GET', 'POST'])
 @login_required
 def new_task():
@@ -89,6 +90,13 @@ def new_task():
 			return redirect(url_for('.tasks'))
 
 	return render_template('task/new.html', title='Nueva Tarea', form=form)
+
+@page.route('/tasks/show/<int:task_id>')
+@login_required
+def get_task(task_id):
+	task = Task.query.get_or_404(task_id)
+
+	return render_template('task/show.html', title='Tarea', task=task)
 
 @page.route('/tasks/edit/<int:task_id>', methods=['GET', 'POST'])
 @login_required
