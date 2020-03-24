@@ -68,10 +68,14 @@ def register():
 	return render_template('auth/register.html', title='Registro', form=form)
 
 @page.route('/tasks')
+@page.route('/tasks/<int:page>')
 @login_required
-def tasks():
-	tasks = current_user.tasks
-	return render_template('task/list.html', title='Tareas', tasks=tasks)
+def tasks(page=1, per_page=3):
+	pagination = current_user.tasks.paginate(page, per_page=per_page)
+	tasks = pagination.items
+
+	return render_template('task/list.html', title='Tareas', tasks=tasks,
+							pagination=pagination, page=page)
 
 @page.route('/tasks/new', methods=['GET', 'POST'])
 @login_required
