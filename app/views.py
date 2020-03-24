@@ -17,7 +17,7 @@ def load_user(id):
 
 @page.route('/')
 def index():
-	return render_template('index.html', title='Index')
+	return render_template('index.html', title='Index', active='index')
 
 @page.app_errorhandler(404)
 def page_not_found(error):
@@ -42,7 +42,7 @@ def login():
 		else:
 			flash(ERROR_USER, 'error')
 
-	return render_template('auth/login.html', title='Login', form=form)
+	return render_template('auth/login.html', title='Login', form=form, active='login')
 
 @page.route('/logout')
 def logout():
@@ -65,7 +65,7 @@ def register():
 			flash(USER_CREATED)
 			return redirect(url_for('.tasks'))
 
-	return render_template('auth/register.html', title='Registro', form=form)
+	return render_template('auth/register.html', title='Registro', form=form, active='register')
 
 @page.route('/tasks')
 @page.route('/tasks/<int:page>')
@@ -75,7 +75,7 @@ def tasks(page=1, per_page=3):
 	tasks = pagination.items
 
 	return render_template('task/list.html', title='Tareas', tasks=tasks,
-							pagination=pagination, page=page)
+							pagination=pagination, page=page, active='tasks')
 
 
 @page.route('/tasks/new', methods=['GET', 'POST'])
@@ -89,7 +89,7 @@ def new_task():
 			flash(TASK_CREATED)
 			return redirect(url_for('.tasks'))
 
-	return render_template('task/new.html', title='Nueva Tarea', form=form)
+	return render_template('task/new.html', title='Nueva Tarea', form=form, active='new_task')
 
 @page.route('/tasks/show/<int:task_id>')
 @login_required
